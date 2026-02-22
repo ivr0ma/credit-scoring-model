@@ -1,0 +1,32 @@
+---
+# Роль fastapi_app: развёртывание FastAPI-приложения в Docker-контейнере
+
+- name: Create application directory on target server
+  ansible.builtin.file:
+    path: /opt/fastapi_app
+    state: directory
+    mode: "0755"
+
+- name: Copy application files to server
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/app/"
+    dest: /opt/fastapi_app/
+    mode: "0644"
+
+- name: Build Docker image from Dockerfile
+  community.docker.docker_image:
+    name: fastapi
+    tag: latest
+    source: build
+    build:
+      path: /opt/fastapi_app
+      pull: true
+
+- name: Run FastAPI container
+  community.docker.docker_container:
+    name: fastapi_container
+    image: fastapi:latest
+    state: started
+    ports:
+      - "80:8000"
+    restart_policy: always

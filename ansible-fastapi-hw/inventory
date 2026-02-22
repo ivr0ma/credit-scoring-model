@@ -1,0 +1,9 @@
+# Инвентарь для ДЗ 8
+# Укажите IP целевого сервера (Ubuntu) после развёртывания через Terraform/YC
+
+[app_servers]
+# fastapi_server ansible_host=84.201.xxx.xxx
+
+# Переменные для группы
+[app_servers:vars]
+ansible_user=ubuntu

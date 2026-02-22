@@ -1,0 +1,5 @@
+# Коллекции Ansible для ДЗ 8
+# Установка: ansible-galaxy collection install -r requirements.yml
+
+collections:
+  - name: community.docker

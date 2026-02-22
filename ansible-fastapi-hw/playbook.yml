@@ -1,0 +1,12 @@
+---
+# ДЗ 8: Конфигурация среды — развёртывание FastAPI в Docker
+# Запуск: ansible-playbook -i inventory playbook.yml
+# Требуется: ansible-galaxy collection install community.docker
+
+- name: Setup server and deploy FastAPI app
+  hosts: app_servers
+  become: true
+
+  roles:
+    - docker
+    - fastapi_app

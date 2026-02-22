@@ -1,0 +1,51 @@
+---
+# Роль docker: установка и настройка Docker на хосте (Ubuntu/Debian)
+
+- name: Install dependencies for Docker repository and pip
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - software-properties-common
+      - python3-pip
+    state: present
+    update_cache: true
+
+- name: Get distribution codename for Docker repo
+  ansible.builtin.command: lsb_release -cs
+  register: docker_codename
+  changed_when: false
+
+- name: Add Docker GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker official repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker_codename.stdout }} stable"
+    state: present
+    filename: docker
+
+- name: Install Docker packages
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: true
+
+- name: Install Python docker library for Ansible
+  ansible.builtin.pip:
+    name: docker
+    state: present
+
+- name: Start and enable Docker service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
