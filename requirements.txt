@@ -1,0 +1,2 @@
+# Credit scoring model — зависимости для CI и локального запуска
+scikit-learn>=1.3.0

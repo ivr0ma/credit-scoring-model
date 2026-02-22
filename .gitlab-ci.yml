@@ -1,0 +1,45 @@
+# GitLab CI/CD pipeline для проекта credit-scoring-model (ДЗ 11-12)
+# Этапы: lint -> test -> build
+
+stages:
+  - lint
+  - test
+  - build
+
+default:
+  image: python:3.11-slim
+  before_script:
+    - pip install --no-cache-dir -r requirements.txt
+
+# --- Lint ---
+lint:
+  stage: lint
+  script:
+    - pip install --no-cache-dir ruff
+    - ruff check . --output-format=default
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# --- Test ---
+test:
+  stage: test
+  script:
+    - pip install --no-cache-dir pytest pytest-cov
+    - pytest tests/ -v --cov=model --cov-report=term-missing --cov-report=xml --junitxml=junit.xml
+  artifacts:
+    when: always
+    reports:
+      junit: junit.xml
+    paths:
+      - coverage.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# --- Build (артефакт / проверка сборки) ---
+build:
+  stage: build
+  script:
+    - python -c "from model import predict; print('Build OK:', predict([0,1,0]))"
+  rules:
+    - if: $CI_COMMIT_BRANCH
