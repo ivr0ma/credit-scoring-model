@@ -1,0 +1,16 @@
+---
+# ДЗ 6: Ansible playbook — развёртывание Credit Scoring API
+# Запуск: ansible-playbook playbook.yml
+
+- name: Deploy Credit Scoring API
+  hosts: app_servers
+  become: true
+  vars:
+    app_user: "{{ ansible_user }}"
+    app_dir: "/opt/credit-scoring-api"
+    app_port: 8000
+    app_listen: "0.0.0.0"
+
+  roles:
+    - role: credit_scoring_app
+      tags: app

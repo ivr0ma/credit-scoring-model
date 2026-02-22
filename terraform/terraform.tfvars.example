@@ -1,0 +1,9 @@
+# Скопируйте в terraform.tfvars и заполните значения
+# cp terraform.tfvars.example terraform.tfvars
+
+yandex_token     = "your-oauth-or-iam-token"
+yandex_cloud_id  = "your-cloud-id"
+yandex_folder_id = "your-folder-id"
+yandex_zone      = "ru-central1-a"
+instance_count   = 2
+ssh_public_key_path = "~/.ssh/id_rsa.pub"

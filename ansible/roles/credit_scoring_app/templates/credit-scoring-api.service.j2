@@ -1,0 +1,17 @@
+# Jinja2-шаблон systemd unit для Credit Scoring API (ДЗ 6)
+[Unit]
+Description=Credit Scoring API (DataOps)
+After=network.target
+
+[Service]
+Type=simple
+User={{ app_user }}
+Group={{ app_user }}
+WorkingDirectory={{ app_dir }}
+Environment="PATH={{ app_dir }}/venv/bin"
+ExecStart={{ app_dir }}/venv/bin/uvicorn app.main:app --host {{ app_listen }} --port {{ app_port }}
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

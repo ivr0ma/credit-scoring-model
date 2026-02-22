@@ -1,0 +1,4 @@
+---
+app_dir: "/opt/credit-scoring-api"
+app_port: 8000
+app_listen: "0.0.0.0"

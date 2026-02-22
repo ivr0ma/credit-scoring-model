@@ -3,3 +3,11 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Terraform (ДЗ 6)
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/.terraform/
+terraform/terraform.tfvars
+*.tfvars
+!terraform/*.tfvars.example
