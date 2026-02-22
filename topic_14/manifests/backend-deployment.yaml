@@ -1,0 +1,27 @@
+# Бекенд: ДЗ 14, вариант 1 — 10 реплик, 600Mi RAM, 1 CPU
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: backend:latest
+          resources:
+            requests:
+              memory: "600Mi"
+              cpu: "1"
+            limits:
+              memory: "800Mi"
+              cpu: "1500m"
