@@ -1,0 +1,17 @@
+services:
+  jupyterhub:
+    build: .
+    image: jupyterhub-local:latest
+    container_name: jupyterhub
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      # Подключение конфигурации JupyterHub
+      - ./jupyterhub_config.py:/etc/jupyterhub/jupyterhub_config.py:ro
+      # Персистентные данные (БД, cookie-секреты) — опционально
+      - jupyterhub-data:/srv/jupyterhub
+    restart: unless-stopped
+
+volumes:
+  jupyterhub-data:
