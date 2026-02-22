@@ -1,0 +1,20 @@
+# ДЗ 10, Часть 1: запуск ML-сервиса (Credit Scoring API)
+# Запуск: docker-compose up -d
+# Остановка: docker-compose down
+
+services:
+  ml-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ml-app:1.0
+    container_name: credit-scoring-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s

@@ -1,0 +1,27 @@
+# Часть 2 ДЗ 10: многоэтапная сборка
+# Этап 1 (builder): установка зависимостей в wheels
+# Этап 2 (runtime): копирование wheels и установка из локального кэша без сети
+
+FROM python:3.12-slim AS builder
+
+WORKDIR /build
+
+# Копируем только зависимости и собираем wheels в локальный каталог
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --wheel-dir /wheels -r requirements.txt
+
+# --- Финальный образ ---
+FROM python:3.12-slim AS runtime
+
+WORKDIR /app
+
+# Копируем wheels и requirements из builder, устанавливаем из локального кэша (без интернета)
+COPY --from=builder /wheels /wheels
+COPY --from=builder /build/requirements.txt .
+RUN pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt && rm -rf /wheels
+
+# Копируем только код приложения
+COPY app/ ./app/
+
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

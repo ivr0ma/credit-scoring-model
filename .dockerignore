@@ -1,0 +1,43 @@
+# Виртуальное окружение и кэш Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Тесты и разработка (в образ не нужны)
+tests/
+.pytest_cache/
+*.md
+!README.md
+
+# Домашние задания и документация
+hw/
+docs/
+
+# Git и IDE
+.git/
+.gitignore
+.cursor/
+*.swp
+*.swo
+
+# Terraform и Ansible (не часть образа приложения)
+terraform/
+ansible/
+ansible-fastapi-hw/
+
+# Локальные конфиги и секреты
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+
+# Прочее
+*.log
+.DS_Store
