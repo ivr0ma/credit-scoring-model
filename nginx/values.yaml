@@ -1,0 +1,34 @@
+# Версия образа nginx (п.2 задания)
+image:
+  repository: nginx
+  tag: "1.25"
+  pullPolicy: IfNotPresent
+
+# Реплики
+replicaCount: 1
+
+# Ресурсы: лимиты и риквесты CPU/memory (п.3 задания)
+# Оставьте пустыми {}, чтобы не задавать limits/requests
+resources: {}
+  # limits:
+  #   cpu: 200m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 64Mi
+
+# Включить/выключить генерацию манифеста Ingress (п.4 задания)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+service:
+  type: ClusterIP
+  port: 80

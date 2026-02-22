@@ -1,0 +1,23 @@
+# Вариант 2: с лимитами и риквестами CPU/memory
+# Использование: helm install nginx-res ./nginx -f nginx/values-with-resources.yaml -n dev --create-namespace
+
+image:
+  repository: nginx
+  tag: "1.24"
+
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 64Mi
+
+ingress:
+  enabled: false
+
+service:
+  type: ClusterIP
+  port: 80

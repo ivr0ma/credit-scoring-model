@@ -1,0 +1,12 @@
+apiVersion: v2
+name: nginx
+description: Helm chart для nginx (ДЗ DataOps, тема 15)
+type: application
+version: 0.1.0
+appVersion: "1.25"
+keywords:
+  - nginx
+  - web
+maintainers:
+  - name: Student
+    email: student@example.com

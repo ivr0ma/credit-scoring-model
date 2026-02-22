@@ -1,0 +1,36 @@
+# Вариант 4: полная конфигурация — другая версия образа, ресурсы, Ingress
+# Использование: helm install nginx-full ./nginx -f nginx/values-full.yaml -n prod --create-namespace
+
+image:
+  repository: nginx
+  tag: "1.26"
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: nginx.myapp.io
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: nginx-tls
+      hosts:
+        - nginx.myapp.io
+
+service:
+  type: ClusterIP
+  port: 80

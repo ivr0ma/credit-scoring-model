@@ -1,0 +1,17 @@
+# Вариант 1: минимальный деплой — образ по умолчанию, без ресурсов, без Ingress
+# Использование: helm install nginx-min ./nginx -f nginx/values-minimal.yaml -n dev --create-namespace
+
+image:
+  repository: nginx
+  tag: "1.25"
+
+replicaCount: 1
+
+resources: {}
+
+ingress:
+  enabled: false
+
+service:
+  type: ClusterIP
+  port: 80
