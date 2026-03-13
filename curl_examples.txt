@@ -1,0 +1,50 @@
+Примеры вызова REST ручки после запуска сервиса (локально или в Docker).
+
+1. Проверка здоровья сервиса:
+
+curl -X GET "http://localhost:8000/health"
+
+Ожидаемый ответ (пример):
+{"status":"ok","model_loaded":false}
+
+2. Вызов /api/v1/predict с фиктивным предсказанием (до загрузки модели):
+
+curl -X POST "http://localhost:8000/api/v1/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "age": 0.05,
+    "sex": 1.0,
+    "bmi": 0.03,
+    "bp": 0.02,
+    "s1": 0.01,
+    "s2": 0.02,
+    "s3": 0.03,
+    "s4": 0.04,
+    "s5": 0.05,
+    "s6": 0.06
+  }'
+
+Пример ответа:
+{"predict":2.7}
+
+3. После обучения и экспорта модели (см. research/train.ipynb)
+ответ будет формироваться реальной моделью RandomForestRegressor:
+
+curl -X POST "http://localhost:8000/api/v1/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "age": 0.05,
+    "sex": 1.0,
+    "bmi": 0.03,
+    "bp": 0.02,
+    "s1": 0.01,
+    "s2": 0.02,
+    "s3": 0.03,
+    "s4": 0.04,
+    "s5": 0.05,
+    "s6": 0.06
+  }'
+
+Пример ответа:
+{"predict":154.55}
+

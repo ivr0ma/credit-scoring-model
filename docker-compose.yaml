@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  mlapp:
+    build: .
+    container_name: diabets-ml-service
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
