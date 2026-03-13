@@ -1,0 +1,58 @@
+{
+  "title": "Credit Scoring Service",
+  "uid": "credit-scoring",
+  "version": 1,
+  "schemaVersion": 30,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Request Rate",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [
+        {
+          "expr": "rate(credit_scoring_requests_total[5m])",
+          "legendFormat": "Requests/s"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Request Latency (p95)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, rate(credit_scoring_request_duration_seconds_bucket[5m]))",
+          "legendFormat": "p95 latency"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Prediction Score Distribution",
+      "type": "histogram",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+      "targets": [
+        {
+          "expr": "rate(credit_scoring_prediction_score_bucket[5m])",
+          "legendFormat": "Score distribution"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Total Requests by Status",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "sum(rate(credit_scoring_requests_total[5m])) by (status)",
+          "legendFormat": "Status {{status}}"
+        }
+      ]
+    }
+  ],
+  "time": {"from": "now-1h", "to": "now"},
+  "refresh": "30s"
+}

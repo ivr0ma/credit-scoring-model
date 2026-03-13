@@ -1,0 +1,35 @@
+services:
+  mlflow-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${MLFLOW_DB_USER}
+      POSTGRES_PASSWORD: ${MLFLOW_DB_PASSWORD}
+      POSTGRES_DB: ${MLFLOW_DB_NAME}
+    volumes:
+      - mlflow_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${MLFLOW_DB_USER} -d ${MLFLOW_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mlflow:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      MLFLOW_DB_USER: ${MLFLOW_DB_USER}
+      MLFLOW_DB_PASSWORD: ${MLFLOW_DB_PASSWORD}
+      MLFLOW_DB_HOST: mlflow-db
+      MLFLOW_DB_PORT: 5432
+      MLFLOW_DB_NAME: ${MLFLOW_DB_NAME}
+      MLFLOW_ARTIFACT_ROOT: ${MLFLOW_ARTIFACT_ROOT}
+    depends_on:
+      mlflow-db:
+        condition: service_healthy
+    volumes:
+      - mlflow_artifacts:/mlflow/artifacts
+
+volumes:
+  mlflow_db_data:
+  mlflow_artifacts:

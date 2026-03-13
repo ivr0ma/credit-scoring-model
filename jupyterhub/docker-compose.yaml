@@ -1,0 +1,14 @@
+services:
+  jupyterhub:
+    build: .
+    ports:
+      - "8888:8000"
+    environment:
+      JUPYTERHUB_ADMIN_USER: ${JUPYTERHUB_ADMIN_USER}
+      JUPYTERHUB_ADMIN_PASSWORD: ${JUPYTERHUB_ADMIN_PASSWORD}
+    volumes:
+      - jupyterhub_data:/srv/jupyterhub
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  jupyterhub_data:
